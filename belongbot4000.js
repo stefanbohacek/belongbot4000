@@ -55,13 +55,15 @@ function checkTweetQueue(){
           console.log(newTweet);
         }
           
-
+        /*
+          Yes, I know about the collections/entries/curate endpoint.
+          Consider this a "legacy codebase" in need of a complete rewrite.
+        */
         twitter.post('collections/entries/add', {
           id: collectionsId,
           tweet_id: newTweet.id
         }, function(err, data, response) {
           // console.log(JSON.stringify(data, null, 4));
-
             if (loggingEnabled === true){
               if (err){
                 console.log('ERROR');
@@ -93,7 +95,7 @@ function checkTweetQueue(){
       }, 1000);
     }
     else{
-      twitter.post('statuses/update', { status: collectionsUrl }, function(err, data, response) {
+      twitter.post('statuses/update', { status: 'New tweets from belong.io! ' + collectionsUrl }, function(err, data, response) {
         console.log(collectionsUrl);
       });
     }
