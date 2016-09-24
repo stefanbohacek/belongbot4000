@@ -27,7 +27,7 @@ To run this bot:
 2. ```sudo npm install```
 3. ```node belongbot4000.js```
 
-The bot runs once, checks for new content, saves IDs of new Tweets and adds them to a [Collection](https://dev.twitter.com/rest/collections/about)
+The bot runs once, checks for new content, saves IDs of new Tweets and adds them to a [Collection](https://dev.twitter.com/rest/collections/about).
 
 If you want to run this bot, say, every 45 minutes on your server, edit your cron jobs with `crontab -e` and add this line:
 
