@@ -13,6 +13,7 @@ Rather than risking getting the bot shut down, I rewrote it to only post the URL
 
 Eventually I shut down the bot.
 
+Resurrected in September 2016, it now adds the tweets into a [Collection](https://blog.twitter.com/2015/tell-compelling-stories-with-twitter-on-mobile-or-web) and posts a link to it.
 
 ## Technical stuff
 
