@@ -1,7 +1,7 @@
 # BELONGBOT4000
 
 
-[@belongbot4000](https://twitter.com/belongbot4000) is a simple Twitter bot that scrapes [belong.io](http://belong.io/) every 45 minutes (with the site's creator's [approval](https://twitter.com/waxpancake/status/649582755777417216)) and looks for new tweets to post.
+[@belongbot4000](https://twitter.com/belongbot4000) is a simple Twitter bot that scrapes [belong.io](http://belong.io/) (here's [a bit about the site](https://www.wired.com/2015/04/curation-code-powerful-combo-finding-webs-best-stuff/), credits go to [Andy Baio](https://twitter.com/waxpancake)) every 45 minutes (with the site's creator's [approval](https://twitter.com/waxpancake/status/649582755777417216)) and looks for new tweets to post.
 
 ![Featured!](belongio.png)
 
@@ -39,3 +39,4 @@ If you want to use a different delay, try something like [this](http://www.cront
 Enjoy!
 
 Note: If you're looking for a similar bot in Python, see [hugovk/finnishpop](https://github.com/hugovk/finnishpop).
+Also note: The code needs a complete rewrite, I know. PRs are welcome!
