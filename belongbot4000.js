@@ -126,7 +126,7 @@ request(url, function(error, response, html){
     }
 
     twitter.post('collections/create', { name: 'BELONG.IO' }, function(err, data, response) {
-      // console.log(JSON.stringify(data, null, 4));
+      console.log(JSON.stringify(data, null, 4));
       console.log(JSON.stringify(data.objects.timelines, null, 4));
       collectionsId = Object.keys(data.objects.timelines)[0];
       collectionsUrl = data.objects.timelines[collectionsId].collection_url;
