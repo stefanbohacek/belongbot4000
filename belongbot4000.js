@@ -125,17 +125,28 @@ request(url, function(error, response, html){
       }
     }
 
-    twitter.post('collections/create', { name: 'BELONG.IO' }, function(err, data, response) {
-      console.log(JSON.stringify(data, null, 4));
-      console.log(JSON.stringify(data.objects.timelines, null, 4));
-      collectionsId = Object.keys(data.objects.timelines)[0];
-      collectionsUrl = data.objects.timelines[collectionsId].collection_url;
-      setTimeout(function(){
-        checkTweetQueue();
-      }, 1000);
-    });
-
-
-
+    twitter.get('collections/list', {'screen_name': 'belongbot4000', 'count': 100}, function(err, data, response){
+      if (err){
+        console.log(err);
+      }
+      else{
+        var lastCollectionId = data.response.results[data.response.results.length - 1];
+        twitter.post('collections/destroy', {
+          id: lastCollectionId
+        }, function(err, data, response) {
+          if (!err){
+            twitter.post('collections/create', { name: 'BELONG.IO' }, function(err, data, response) {
+              console.log(JSON.stringify(data, null, 4));
+              console.log(JSON.stringify(data.objects.timelines, null, 4));
+              collectionsId = Object.keys(data.objects.timelines)[0];
+              collectionsUrl = data.objects.timelines[collectionsId].collection_url;
+              setTimeout(function(){
+                checkTweetQueue();
+              }, 1000);
+            });
+          }
+        });
+      }
+    })
   }
 });
