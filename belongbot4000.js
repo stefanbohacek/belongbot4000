@@ -130,7 +130,7 @@ request(url, function(error, response, html){
         console.log(err);
       }
       else{
-        var lastCollectionId = data.response.results[data.response.results.length - 1];
+        var lastCollectionId = data.response.results[data.response.results.length - 1].timeline_id;
         twitter.post('collections/destroy', {
           id: lastCollectionId
         }, function(err, data, response) {
