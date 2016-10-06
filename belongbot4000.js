@@ -134,7 +134,10 @@ request(url, function(error, response, html){
         twitter.post('collections/destroy', {
           id: lastCollectionId
         }, function(err, data, response) {
-          if (!err){
+          if (err){
+            console.log(err);
+          }
+          else{
             twitter.post('collections/create', { name: 'BELONG.IO' }, function(err, data, response) {
               console.log(JSON.stringify(data, null, 4));
               console.log(JSON.stringify(data.objects.timelines, null, 4));
