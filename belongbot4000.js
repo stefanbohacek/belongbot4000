@@ -125,7 +125,7 @@ request(url, function(error, response, html){
       }
     }
 
-    twitter.get('collections/list', {'screen_name': 'belongbot4000', 'count': 100}, function(err, data, response){
+    twitter.get('collections/list', {'screen_name': 'belongbot4000', 'count': 200}, function(err, data, response){
       if (err){
         console.log(err);
       }
