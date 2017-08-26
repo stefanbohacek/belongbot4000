@@ -9,8 +9,9 @@ var fs = require('fs'),
     Twit = require('twit'),
     config = require('./config'),    
     twitter = new Twit(config.twitter),
+    user_stream = twitter.stream('user'),
     tweet_queue = [],
-    url = 'http://belong.io/',
+    belongio_url = 'http://belong.io/',
     date = new Date(),
     posted_tweet_ids = [],
     tweet_ids_filename = date.getFullYear()
@@ -25,7 +26,6 @@ var fs = require('fs'),
 
 function check_tweet_queue(){
   fs.readFile(tweet_ids_file_path, 'utf8', function (err, data) {
-
     if (err){
       fs.open(tweet_ids_file_path, "wx", function (err, fd) {
         // TODO: handle error
@@ -61,29 +61,51 @@ function check_tweet_queue(){
   });
 }
 
+function check_belong_io(){
+  request(belongio_url, function(error, response, html){
+    if(!error){
+      var $ = cheerio.load(html, {
+        normalizeWhitespace: true
+      });
 
-request(url, function(error, response, html){
-  if(!error){
-    var $ = cheerio.load(html, {
-      normalizeWhitespace: true
-    });
+      // var items = $('div.container').find('div.row:nth-of-type(2)').find('div.item').find('a:nth-of-type(2)');
+      var items = $('div.container').find('div.row:nth-of-type(2)').find('div.item').find('a');
+      console.log('items:');
+      console.log(items.length);
 
-    // var items = $('div.container').find('div.row:nth-of-type(2)').find('div.item').find('a:nth-of-type(2)');
-    var items = $('div.container').find('div.row:nth-of-type(2)').find('div.item').find('a');
-    console.log('items:');
-    console.log(items.length);
+      for (var i = 0, j = items.length; i < j; i++){
+        var match = tweet_url_regexp.exec($(items[i]).attr('href'));
 
-    for (var i = 0, j = items.length; i < j; i++){
-      var match = tweet_url_regexp.exec($(items[i]).attr('href'));
-
-      if (match){
-        tweet_queue.push({
-          id: match[2]
-        });        
+        if (match){
+          tweet_queue.push({
+            id: match[2]
+          });        
+        }
       }
+      check_tweet_queue()
     }
-    setTimeout(function(){
-      check_tweet_queue();
-    }, 1000);    
-  }
+  });
+  setTimeout(function(){
+    check_belong_io();
+  }, 30000);
+}
+
+user_stream.on('follow', function (tweet) {
+  console.log(`new follower (${tweet.source.screen_name})`);
+  twitter.post('friendships/create', { screen_name: tweet.source.screen_name }, function(err, data, response) {
+    // TODO: handle error
+  });
+});
+
+user_stream.on('unfollow', function (tweet) {
+  console.log(`new unfollower (${tweet.source.screen_name})`);
+  twitter.post('friendships/destroy', { screen_name: tweet.source.screen_name }, function(err, data, response) {
+    // TODO: handle error
+  });
+});
+
+check_belong_io();
+
+server.listen(4003, function(){
+  console.log('Express server listening on port 4003');
 });
