@@ -126,7 +126,7 @@ user_stream.on('direct_message', function (dm) {
       }
     });
   }
-}
+});
 
 
 user_stream.on('unfollow', function (tweet) {
