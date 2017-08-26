@@ -1,19 +1,12 @@
 # BELONGBOT4000
 
-
-[@belongbot4000](https://twitter.com/belongbot4000) is a simple Twitter bot that scrapes [belong.io](http://belong.io/) (here's [a bit about the site](https://www.wired.com/2015/04/curation-code-powerful-combo-finding-webs-best-stuff/), credits go to [Andy Baio](https://twitter.com/waxpancake)) every 45 minutes (with the site's creator's [approval](https://twitter.com/waxpancake/status/649582755777417216)) and looks for new tweets to post.
-
 ![Featured!](belongio.png)
 
-## Backstory
 
-Originally, the bot would simply retweet every tweet on belong.io. This made the bot very nice to use, but at least one person openly complained about the notifications the bot was causing to them.
+[@belongbot4000](https://twitter.com/belongbot4000) is a a Twitter bot that scrapes [belong.io](http://belong.io/) (here's [a bit about the site](https://www.wired.com/2015/04/curation-code-powerful-combo-finding-webs-best-stuff/), credits go to [Andy Baio](https://twitter.com/waxpancake)) every 45 minutes (with the site's creator's [approval](https://twitter.com/waxpancake/status/649582755777417216)) and looks for new tweets to retweet.
 
-Rather than risking getting the bot shut down, I rewrote it to only post the URLs. Which made the bot look spammy, and effectively was just stealing other people's content.
+The account is set as private to avoid sending out notifications to retweeted users (unless they follow the bot).
 
-Eventually I shut down the bot.
-
-Resurrected in September 2016, it now adds the tweets into a [Collection](https://blog.twitter.com/2015/tell-compelling-stories-with-twitter-on-mobile-or-web) and posts a link to it.
 
 ## Technical stuff
 
@@ -27,17 +20,4 @@ To run this bot:
 2. ```sudo npm install```
 3. ```node belongbot4000.js```
 
-The bot runs once, checks for new content, saves IDs of new Tweets and adds them to a [Collection](https://dev.twitter.com/rest/collections/about).
-
-If you want to run this bot, say, every 45 minutes on your server, edit your cron jobs with `crontab -e` and add this line:
-
-```
-*/45 * * * * /usr/local/bin/node /var/www/belongbot4000/belongbot4000.js
-```
-
-If you want to use a different delay, try something like [this](http://www.crontab-generator.org/) (unless you're familiar with crontab format).
-
 Enjoy!
-
-Note: If you're looking for a similar bot in Python, see [hugovk/finnishpop](https://github.com/hugovk/finnishpop).
-Also note: The code needs a complete rewrite, I know. PRs are welcome!

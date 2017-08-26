@@ -67,6 +67,9 @@ function check_tweet_queue(){
         check_tweet_queue();
       }, 1000);
     }
+    else{
+      console.log('finished tweet queue, waiting...');
+    }
   });
 }
 
@@ -96,7 +99,7 @@ function check_belong_io(){
   });
   setTimeout(function(){
     check_belong_io();
-  }, 30*60*1000);
+  }, 45*60*1000);
 }
 
 user_stream.on('follow', function (tweet) {
