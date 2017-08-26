@@ -30,9 +30,15 @@ function check_tweet_queue(){
   fs.readFile(tweet_ids_file_path, 'utf8', function (err, data) {
     if (err){
       fs.open(tweet_ids_file_path, "wx", function (err, fd) {
-        // TODO: handle error
+        if (err){
+          // TODO: handle error
+          console.log('ERROR', err);
+        }
         fs.close(fd, function (err) {
-        // TODO: handle error
+          if (err){
+            // TODO: handle error
+            console.log('ERROR', err);
+          }
         });
       });      
     }
@@ -40,7 +46,8 @@ function check_tweet_queue(){
       posted_tweet_ids = data.split(',');
     }
 
-    console.log('posted_tweet_ids:', posted_tweet_ids);
+    // console.log('posted_tweet_ids:', posted_tweet_ids);
+    console.log(`found ${posted_tweet_ids.length} posted tweets`);
 
     if (tweet_queue.length > 0){
       var new_tweet = tweet_queue.shift();
@@ -49,7 +56,7 @@ function check_tweet_queue(){
         console.log('found new item:', new_tweet);
 
         twitter.post('statuses/retweet', { id: new_tweet.id }, function(err, data, response) {
-          console.log('retweeted', new_tweet.text);
+          console.log('retweeted', new_tweet);
         });
       }
       else{
@@ -96,14 +103,20 @@ function check_belong_io(){
 user_stream.on('follow', function (tweet) {
   console.log(`new follower (${tweet.source.screen_name})`);
   twitter.post('friendships/create', { screen_name: tweet.source.screen_name }, function(err, data, response) {
-    // TODO: handle error
+    if (err){
+      // TODO: handle error
+      console.log('ERROR', err);
+    }
   });
 });
 
 user_stream.on('unfollow', function (tweet) {
   console.log(`new unfollower (${tweet.source.screen_name})`);
   twitter.post('friendships/destroy', { screen_name: tweet.source.screen_name }, function(err, data, response) {
-    // TODO: handle error
+    if (err){
+      // TODO: handle error
+      console.log('ERROR', err);
+    }
   });
 });
 
