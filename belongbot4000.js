@@ -60,7 +60,7 @@ function check_tweet_queue(){
         });
       }
       else{
-        console.log('already posted');
+        console.log(`already posted (${new_tweet.id})`);
       }
 
       setTimeout(function(){
