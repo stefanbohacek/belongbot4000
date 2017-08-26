@@ -112,8 +112,26 @@ user_stream.on('follow', function (tweet) {
   });
 });
 
+user_stream.on('direct_message', function (dm) {
+  if (dm.trim().toLowerCase().indexOf('follow me') > -1){
+    console.log(`new follow request from @${dm.direct_message.sender.screen_name}`);
+
+    twitter.post('friendships/create', { screen_name: dm.direct_message.sender.screen_name }, function(err, data, response) {
+      if (err){
+        // TODO: handle error
+        console.log('ERROR', err);
+      }
+      else{
+        console.log(`followed @${dm.direct_message.sender.screen_name}`);
+      }
+    });
+  }
+}
+
+
 user_stream.on('unfollow', function (tweet) {
   console.log(`new unfollower (${tweet.source.screen_name})`);
+  console.log(tweet);
   twitter.post('friendships/destroy', { screen_name: tweet.source.screen_name }, function(err, data, response) {
     if (err){
       // TODO: handle error
