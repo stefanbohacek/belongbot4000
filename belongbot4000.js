@@ -96,7 +96,7 @@ function check_belong_io(){
   });
   setTimeout(function(){
     check_belong_io();
-  }, 30000);
+  }, 30*60*1000);
 }
 
 user_stream.on('follow', function (tweet) {
