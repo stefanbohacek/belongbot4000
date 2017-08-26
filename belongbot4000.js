@@ -102,6 +102,28 @@ function check_belong_io(){
   }, 45*60*1000);
 }
 
+function send_twitter_dm(username, message){
+  twitter.post('direct_messages/new', {
+    screen_name: username,
+    text: message
+  }, 
+  function(err, data, response){
+    if (err){
+      console.log('Error!');
+      console.log(err);
+    }
+  });  
+}
+
+/*
+  TODO:
+
+  https://twittercommunity.com/t/how-do-i-use-the-twitter-api-to-approve-a-follower-request-for-a-protected-account/82579
+  As of February 2017, there is no way to approve follower requests for a protected account via the Twitter API.
+  Keeping the code below until a workaround is available.
+
+*/
+
 user_stream.on('follow', function (tweet) {
   console.log(`new follower (${tweet.source.screen_name})`);
   twitter.post('friendships/create', { screen_name: tweet.source.screen_name }, function(err, data, response) {
@@ -113,18 +135,22 @@ user_stream.on('follow', function (tweet) {
 });
 
 user_stream.on('direct_message', function (dm) {
-  if (dm.direct_message.text.trim().toLowerCase().indexOf('follow me') > -1){
+  var dm_text = dm.direct_message.text.trim().toLowerCase();
+
+  if (dm_text.indexOf('follow me') > -1){
     console.log(`new follow request from @${dm.direct_message.sender.screen_name}`);
 
-    twitter.post('friendships/create', { screen_name: dm.direct_message.sender.screen_name }, function(err, data, response) {
-      if (err){
-        // TODO: handle error
-        console.log('ERROR', err);
-      }
-      else{
-        console.log(`followed @${dm.direct_message.sender.screen_name}`);
-      }
-    });
+    send_twitter_dm('fourtonfish', `New follow request from @${dm.direct_message.sender.screen_name}.`)
+
+    // twitter.post('friendships/create', { screen_name: dm.direct_message.sender.screen_name }, function(err, data, response) {
+    //   if (err){
+    //     // TODO: handle error
+    //     console.log('ERROR', err);
+    //   }
+    //   else{
+    //     console.log(`followed @${dm.direct_message.sender.screen_name}`);
+    //   }
+    // });
   }
 });
 

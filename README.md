@@ -7,6 +7,7 @@
 
 The account is set as private to avoid sending out notifications to retweeted users (unless they follow the bot).
 
+As of [February 2017](https://twittercommunity.com/t/how-do-i-use-the-twitter-api-to-approve-a-follower-request-for-a-protected-account/82579), there is no way to approve follower requests for a protected account via the Twitter API, so please DM the bot with "follow me" for a manual follow-back.
 
 ## Technical stuff
 
