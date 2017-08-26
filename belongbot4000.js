@@ -80,8 +80,7 @@ function check_belong_io(){
 
       // var items = $('div.container').find('div.row:nth-of-type(2)').find('div.item').find('a:nth-of-type(2)');
       var items = $('div.container').find('div.row:nth-of-type(2)').find('div.item').find('a');
-      console.log('items:');
-      console.log(items.length);
+      console.log(`found ${items.length} tweets on belong.io, processing...`);
 
       for (var i = 0, j = items.length; i < j; i++){
         var match = tweet_url_regexp.exec($(items[i]).attr('href'));
@@ -92,7 +91,7 @@ function check_belong_io(){
           });        
         }
       }
-      check_tweet_queue()
+      check_tweet_queue();
     }
   });
   setTimeout(function(){
