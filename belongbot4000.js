@@ -136,22 +136,19 @@ user_stream.on('follow', function (tweet) {
 
 user_stream.on('direct_message', function (dm) {
   var dm_text = dm.direct_message.text.trim().toLowerCase();
+  console.log(`new dm from @${dm.direct_message.sender.screen_name}`);
 
-  if (dm_text.indexOf('follow me') > -1){
-    console.log(`new follow request from @${dm.direct_message.sender.screen_name}`);
+  send_twitter_dm('fourtonfish', `New DM from @${dm.direct_message.sender.screen_name}.`)
 
-    send_twitter_dm('fourtonfish', `New follow request from @${dm.direct_message.sender.screen_name}.`)
-
-    // twitter.post('friendships/create', { screen_name: dm.direct_message.sender.screen_name }, function(err, data, response) {
-    //   if (err){
-    //     // TODO: handle error
-    //     console.log('ERROR', err);
-    //   }
-    //   else{
-    //     console.log(`followed @${dm.direct_message.sender.screen_name}`);
-    //   }
-    // });
-  }
+  // twitter.post('friendships/create', { screen_name: dm.direct_message.sender.screen_name }, function(err, data, response) {
+  //   if (err){
+  //     // TODO: handle error
+  //     console.log('ERROR', err);
+  //   }
+  //   else{
+  //     console.log(`followed @${dm.direct_message.sender.screen_name}`);
+  //   }
+  // });
 });
 
 
