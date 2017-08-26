@@ -9,7 +9,7 @@ var fs = require('fs'),
     Twit = require('twit'),
     config = require('./config'),    
     twitter = new Twit(config.twitter),
-    tweetQueue = [],
+    tweet_queue = [],
     url = 'http://belong.io/',
     date = new Date(),
     posted_tweet_ids = [],
@@ -21,19 +21,16 @@ var fs = require('fs'),
                        + date.getDate()
                        + '.txt',
     tweet_ids_file_path = path.join(__dirname, 'tweet_ids', tweet_ids_filename),
-    tweet_url_regexp = /https:\/\/twitter.com\/(.*)\/status\/(.*)/g,
-    loggingEnabled = true,
-    collectionsId,
-    collectionsUrl;
+    tweet_url_regexp = /https:\/\/twitter.com\/(.*)\/status\/(.*)/g;
 
-function checkTweetQueue(){
+function check_tweet_queue(){
   fs.readFile(tweet_ids_file_path, 'utf8', function (err, data) {
 
     if (err){
       fs.open(tweet_ids_file_path, "wx", function (err, fd) {
-        // handle error
+        // TODO: handle error
         fs.close(fd, function (err) {
-        // handle error
+        // TODO: handle error
         });
       });      
     }
@@ -41,63 +38,25 @@ function checkTweetQueue(){
       posted_tweet_ids = data.split(',');
     }
 
-    if (loggingEnabled === true){
-      console.log('posted_tweet_ids:');
-      console.log(posted_tweet_ids);
-    }
+    console.log('posted_tweet_ids:', posted_tweet_ids);
 
-    if (tweetQueue.length > 0){
-      var newTweet = tweetQueue.shift();
+    if (tweet_queue.length > 0){
+      var new_tweet = tweet_queue.shift();
 
-      if (posted_tweet_ids.indexOf(newTweet.id) === -1){
-        if (loggingEnabled === true){
-          console.log('Found new item:');
-          console.log(newTweet);
-        }
-          
-        /*
-          Yes, I know about the collections/entries/curate endpoint.
-          Consider this a "legacy codebase" in need of a complete rewrite.
-        */
-        twitter.post('collections/entries/add', {
-          id: collectionsId,
-          tweet_id: newTweet.id
-        }, function(err, data, response) {
-          // console.log(JSON.stringify(data, null, 4));
-            if (loggingEnabled === true){
-              if (err){
-                console.log('ERROR');
-                console.log(err);       
-              }
-              else{
-                if (loggingEnabled === true){
-                  console.log('Added!');
-                }
+      if (posted_tweet_ids.indexOf(new_tweet.id) === -1){
+        console.log('found new item:', new_tweet);
 
-                posted_tweet_ids.push(newTweet.id);
-
-                fs.writeFile(tweet_ids_file_path, posted_tweet_ids, function (err) {
-                  if (err) throw err;      
-                });
-              }
-            }
-          }
-        );
+        twitter.post('statuses/retweet', { id: new_tweet.id }, function(err, data, response) {
+          console.log('retweeted', new_tweet.text);
+        });
       }
       else{
-        if (loggingEnabled === true){
-          console.log('Already posted');
-        }
+        console.log('already posted');
       }
 
       setTimeout(function(){
-        checkTweetQueue();
+        check_tweet_queue();
       }, 1000);
-    }
-    else{
-      twitter.post('statuses/update', { status: 'New tweets from belong.io! ' + collectionsUrl }, function(err, data, response) {
-        console.log(collectionsUrl);
-      });
     }
   });
 }
@@ -117,39 +76,14 @@ request(url, function(error, response, html){
     for (var i = 0, j = items.length; i < j; i++){
       var match = tweet_url_regexp.exec($(items[i]).attr('href'));
 
-
       if (match){
-        tweetQueue.push({
+        tweet_queue.push({
           id: match[2]
         });        
       }
     }
-
-    twitter.get('collections/list', {'screen_name': 'belongbot4000', 'count': 200}, function(err, data, response){
-      if (err){
-        console.log(err);
-      }
-      else{
-        var lastCollectionId = data.response.results[data.response.results.length - 1].timeline_id;
-        twitter.post('collections/destroy', {
-          id: lastCollectionId
-        }, function(err, data, response) {
-          if (err){
-            console.log(err);
-          }
-          else{
-            twitter.post('collections/create', { name: 'BELONG.IO' }, function(err, data, response) {
-              console.log(JSON.stringify(data, null, 4));
-              console.log(JSON.stringify(data.objects.timelines, null, 4));
-              collectionsId = Object.keys(data.objects.timelines)[0];
-              collectionsUrl = data.objects.timelines[collectionsId].collection_url;
-              setTimeout(function(){
-                checkTweetQueue();
-              }, 1000);
-            });
-          }
-        });
-      }
-    })
+    setTimeout(function(){
+      check_tweet_queue();
+    }, 1000);    
   }
 });
