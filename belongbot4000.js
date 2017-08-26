@@ -25,6 +25,8 @@ var fs = require('fs'),
     tweet_url_regexp = /https:\/\/twitter.com\/(.*)\/status\/(.*)/g;
 
 function check_tweet_queue(){
+  console.log('checking tweet queue...');
+
   fs.readFile(tweet_ids_file_path, 'utf8', function (err, data) {
     if (err){
       fs.open(tweet_ids_file_path, "wx", function (err, fd) {
@@ -62,6 +64,7 @@ function check_tweet_queue(){
 }
 
 function check_belong_io(){
+  console.log('checking belong.io...');
   request(belongio_url, function(error, response, html){
     if(!error){
       var $ = cheerio.load(html, {
