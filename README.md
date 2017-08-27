@@ -3,7 +3,7 @@
 ![Featured!](belongio.png)
 
 
-[@belongbot4000](https://twitter.com/belongbot4000) is a Twitter bot that scrapes [belong.io](http://belong.io/) (here's [a bit about the site](https://www.wired.com/2015/04/curation-code-powerful-combo-finding-webs-best-stuff/), credits go to [Andy Baio](https://twitter.com/waxpancake)) every 45 minutes (with the site's creator's [approval](https://twitter.com/waxpancake/status/649582755777417216)) and looks for new tweets to retweet.
+[@belongbot4000](https://twitter.com/belongbot4000) is a Twitter bot that scrapes [belong.io](http://belong.io/) (here's [a bit about the site](https://www.wired.com/2015/04/curation-code-powerful-combo-finding-webs-best-stuff/), credits go to [Andy Baio](https://twitter.com/waxpancake)) every 30 minutes (with the site's creator's [approval](https://twitter.com/waxpancake/status/649582755777417216)) and looks for new tweets to retweet.
 
 The account is set as private to avoid sending out notifications to retweeted users (unless they follow the bot).
 
