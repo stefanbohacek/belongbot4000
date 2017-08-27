@@ -99,7 +99,7 @@ function check_belong_io(){
   });
   setTimeout(function(){
     check_belong_io();
-  }, 45*60*1000);
+  }, 30*60*1000);
 }
 
 function send_twitter_dm(username, message){
