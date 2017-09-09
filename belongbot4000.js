@@ -138,7 +138,7 @@ user_stream.on('direct_message', function (dm) {
   var dm_text = dm.direct_message.text.trim().toLowerCase();
   console.log(`new dm from @${dm.direct_message.sender.screen_name}`);
 
-  send_twitter_dm('fourtonfish', `New DM from @${dm.direct_message.sender.screen_name}.`)
+  // send_twitter_dm('fourtonfish', `New DM from @${dm.direct_message.sender.screen_name}.`)
 
   // twitter.post('friendships/create', { screen_name: dm.direct_message.sender.screen_name }, function(err, data, response) {
   //   if (err){
